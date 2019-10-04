@@ -190,6 +190,12 @@ zero_protected_mode:
 	mov	es,	ax	; segment ekstra
 	mov	ss,	ax	; segment stosu
 
+	; przesuń kod jądra systemu do przestrzeni pamięci fizycznej pod adresem 0x00100000
+	mov	esi,	STATIC_ZERO_kernel_address << STATIC_SEGMENT_to_pointer
+	mov	edi,	STATIC_ZERO_kernel_address << STATIC_SEGMENT_to_pointer << STATIC_SEGMENT_to_pointer
+	mov	ecx,	(file_kernel_end - file_kernel) / 0x04
+	rep	movsd
+
 ;===============================================================================
 ; jeśli program rozruchowy jest w trybie 16 bitowym, to
 ;===============================================================================
@@ -198,7 +204,7 @@ zero_protected_mode:
 	mov	ebx,	STATIC_ZERO_memory_map
 
 	; wywołaj kod jądra systemu
-	jmp	STATIC_ZERO_kernel_address << STATIC_SEGMENT_to_pointer
+	jmp	STATIC_ZERO_kernel_address << STATIC_SEGMENT_to_pointer << STATIC_SEGMENT_to_pointer
 %endif
 
 	;-----------------------------------------------------------------------
@@ -277,7 +283,7 @@ zero_long_mode:
 	mov	ebx,	STATIC_ZERO_memory_map
 
 	; wywołaj kod jądra systemu
-	jmp	STATIC_ZERO_kernel_address << STATIC_SEGMENT_to_pointer
+	jmp	STATIC_ZERO_kernel_address << STATIC_SEGMENT_to_pointer << STATIC_SEGMENT_to_pointer
 
 	; powrót z procedury
 	ret
