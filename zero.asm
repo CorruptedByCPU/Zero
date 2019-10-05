@@ -100,6 +100,10 @@ zero:
 	mov	edi,	STATIC_ZERO_memory_map
 
 .memory:
+	; rozmiar wpisu
+	mov	eax,	0x14
+	stosd
+
 	; pobierz informacje o przestrzeni pamięci
 	mov	eax,	0xE820	; funkcja Get System Memory Map
 	mov	ecx,	0x18	; rozmiar wiersza w Bajtach, generowanej tablicy
@@ -114,10 +118,6 @@ zero:
 	; koniec wierszy generowanej tablicy?
 	test	ebx,	ebx
 	jnz	.memory	; nie
-
-	; wstaw pusty rekord na koniec tablicy (terminator)
-	xor	al,	al
-	rep	stosb
 
 	;-----------------------------------------------------------------------
 	; wyłącz wszystkie przerwania na kontrolerze PIC, jądro systemu skonfiguruje i uruchomi wg. własnych potrzeb
@@ -190,7 +190,27 @@ zero_protected_mode:
 	mov	es,	ax	; segment ekstra
 	mov	ss,	ax	; segment stosu
 
+	;-----------------------------------------------------------------------
+	; utwórz nagłówek Multiboot (wersja 0.6.96)
+	;-----------------------------------------------------------------------
+
+	; wylicz rozmiar utworzonej mapy pamięci w Bajtach
+	mov	ecx,	edi
+	sub	ecx,	STATIC_ZERO_memory_map
+
+	; nagłówek utwórz za tablicą werktorów przerwań BIOSu
+	mov	edi,	STATIC_ZERO_multiboot_header
+
+	; flagi: udostępniono mapę pamięci
+	mov	dword [edi + STATIC_MULTIBOOT_header.flags],	STATIC_MULTIBOOT_HEADER_FLAG_memory_map
+
+	; rozmiar i adres mapy pamięci
+	mov	dword [edi + STATIC_MULTIBOOT_header.mmap_length],	ecx
+	mov	dword [edi + STATIC_MULTIBOOT_header.mmap_addr],	STATIC_ZERO_memory_map
+
+	;-----------------------------------------------------------------------
 	; przesuń kod jądra systemu do przestrzeni pamięci fizycznej pod adresem 0x00100000
+	;-----------------------------------------------------------------------
 	mov	esi,	STATIC_ZERO_kernel_address << STATIC_SEGMENT_to_pointer
 	mov	edi,	STATIC_ZERO_kernel_address << STATIC_SEGMENT_to_pointer << STATIC_SEGMENT_to_pointer
 	mov	ecx,	(file_kernel_end - file_kernel) / 0x04
@@ -200,8 +220,8 @@ zero_protected_mode:
 ; jeśli program rozruchowy jest w trybie 16 bitowym, to
 ;===============================================================================
 %if STATIC_ZERO_bit_mode = 32
-	; zwróć informacje o adresie tablicy mapy pamięci
-	mov	ebx,	STATIC_ZERO_memory_map
+	; zwróć informacje o adresie nagłówka multiboot
+	mov	ebx,	STATIC_ZERO_multiboot_header
 
 	; wywołaj kod jądra systemu
 	jmp	STATIC_ZERO_kernel_address << STATIC_SEGMENT_to_pointer << STATIC_SEGMENT_to_pointer
@@ -279,8 +299,8 @@ zero_protected_mode:
 [BITS 64]
 
 zero_long_mode:
-	; zwróć informacje o adresie tablicy mapy pamięci
-	mov	ebx,	STATIC_ZERO_memory_map
+	; zwróć informacje o adresie nagłówka multiboot
+	mov	ebx,	STATIC_ZERO_multiboot_header
 
 	; wywołaj kod jądra systemu
 	jmp	STATIC_ZERO_kernel_address << STATIC_SEGMENT_to_pointer << STATIC_SEGMENT_to_pointer
