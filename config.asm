@@ -17,6 +17,7 @@ STATIC_ZERO_stack			equ	0x8000
 STATIC_ZERO_magic			equ	0xAA55
 STATIC_ZERO_kernel_address		equ	0x1000	; 0x1000:0x0000
 STATIC_ZERO_memory_map			equ	0x1000	; 0x0000:0x1000
+STATIC_ZERO_multiboot_header		equ	0x0500
 
 STATIC_ZERO_ERROR_memory		equ	0x4F4D	; "M"
 STATIC_ZERO_ERROR_device		equ	0x4F44	; "D"
@@ -39,6 +40,15 @@ STATIC_PAGE_FLAG_available		equ	00000001b
 STATIC_PAGE_FLAG_writeable		equ	00000010b
 STATIC_PAGE_FLAG_2MiB_size		equ	10000000b
 STATIC_PAGE_FLAG_default		equ	STATIC_PAGE_FLAG_available | STATIC_PAGE_FLAG_writeable
+
+STATIC_MULTIBOOT_HEADER_FLAG_memory_map	equ	01000000b
+
+struc	STATIC_MULTIBOOT_header
+	.flags		resb	4
+	.unsupported	resb	40
+	.mmap_length	resb	4
+	.mmap_addr	resb	4
+endstruc
 
 ;-------------------------------------------------------------------------------
 ; stałe i zmienne dla kontrolerów wbudowanych
