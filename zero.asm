@@ -106,14 +106,14 @@ zero:
 
 	; pobierz informacje o przestrzeni pamięci
 	mov	eax,	0xE820	; funkcja Get System Memory Map
-	mov	ecx,	0x18	; rozmiar wiersza w Bajtach, generowanej tablicy
+	mov	ecx,	0x14	; rozmiar wiersza w Bajtach, generowanej tablicy
 	int	0x15
 
 	; błąd podczas generowania?
 	jc	zero_panic	; tak
 
 	; przesuń wskaźnik do następnego wiersza
-	add	edi,	0x18
+	add	edi,	0x14
 
 	; koniec wierszy generowanej tablicy?
 	test	ebx,	ebx
