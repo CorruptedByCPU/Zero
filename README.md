@@ -9,7 +9,7 @@ Program rozruchowy w czystym języku asemblera dla plików "jądra systemu" dzia
 
 #### Modyfikacja:
 
-Na początku pliku config.asm znajduje się linia zmieniająca tryb procesora w jaki zostanie on przekazany do jądra systemu.
+Na początku pliku *config.asm* znajduje się linia zmieniająca tryb procesora w jaki zostanie on przekazany do jądra systemu.
 Tryb 16 bitowy, uruchamia kod pod adresem fizycznym 0x1000, natomiast tryb 32 i 64 bitowy pod adresem fizycznym/logicznym 0x100000
 
 	;---
