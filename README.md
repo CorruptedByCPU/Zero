@@ -1,30 +1,17 @@
 # Zero
 
-Program rozruchowy w czystym języku asemblera dla plików "jądra systemu" działający w 16, 32 i 64 bitowym trybie procesora.
-
-#### Wymagania:
-
-- kompilator Nasm (https://nasm.us)
-- wirtualizator Qemu (https://www.qemu.org)
-
-#### Modyfikacja:
-
-Na początku pliku *config.asm* znajduje się linia zmieniająca tryb procesora w jaki zostanie on przekazany do jądra systemu.
-Tryb 16 bitowy, uruchamia kod pod adresem fizycznym 0x1000, natomiast tryb 32 i 64 bitowy pod adresem fizycznym/logicznym 0x100000
-
-	;---
-	; tryb programu rozruchowego
-	;---------------------------
-	STATIC_ZERO_bit_mode equ 64 ; dostępne wartości: 16, 32 i 64
-
 #### Kompilacja:
 
-	# (GNU/Linux)
-	make
+	set WIDTH=640
+	set HEIGHT=480
 
-	# MS Windows
-	nasm -f bin kernel.asm	-o build/kernel
-	nasm -f bin zero.asm	-o build/disk.raw
+	nasm -f bin kernel.asm		-o build/kernel		-dSELECTED_VIDEO_WIDTH_pixel=%WIDTH% -dSELECTED_VIDEO_HEIGHT_pixel=%HEIGHT%
+	FOR /F "usebackq" %%A IN ('build/kernel') DO set KERNEL_SIZE=%%~zA
+	nasm -f bin zero.asm		-o build/zero		-dKERNEL_FILE_SIZE_bytes=%KERNEL_SIZE% -dSELECTED_VIDEO_WIDTH_pixel=%WIDTH% -dSELECTED_VIDEO_HEIGHT_pixel=%HEIGHT%
+	FOR /F "usebackq" %%A IN ('build/zero') DO set ZERO_SIZE=%%~zA
+	nasm -f bin bootsector.asm	-o build/bootsector	-dZERO_FILE_SIZE_bytes=%ZERO_SIZE%
+
+	nasm -f bin disk.asm		-o build/disk.raw
 
 #### Uruchomienie:
 
