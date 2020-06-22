@@ -7,9 +7,9 @@ zero_storage:
 	; inicjalizuj dostępne nośniki
 	call	driver_ide_init
 
-	xchg	bx,bx
-	mov	eax,	((zero_end - zero) + 0x200) / 0x200
+	; wczytaj plik jądra systemu
+	mov	eax,	((zero_end - zero) / 0x200 ) + 1	; +1 bootsector
 	xor	ebx,	ebx
-	mov	ecx,	1
-	mov	edi,	0x100000
+	mov	ecx,	KERNEL_FILE_SIZE_bytes / 0x200
+	mov	edi,	0x00100000
 	call	driver_ide_read
