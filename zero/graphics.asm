@@ -86,7 +86,7 @@ zero_graphics:
 	cmp	word [di + ZERO_STRUCTURE_GRAPHICS_MODE_INFO_BLOCK.x_resolution],	SELECTED_VIDEO_WIDTH_pixel
 	jne	.next	; nie
 
-	; oczekiwana wysokość w pikselach?
+	; oczekiwana wysokość w pikselach?
 	cmp	word [di + ZERO_STRUCTURE_GRAPHICS_MODE_INFO_BLOCK.y_resolution],	SELECTED_VIDEO_HEIGHT_pixel
 	jne	.next	; nie
 
@@ -98,7 +98,7 @@ zero_graphics:
 	; przesuń wskaźnik na następny wpis
 	add	esi,	0x02
 
-	; sprawdź następny tryb
+	; sprawdź następny tryb
 	jmp	.loop
 
 .error:

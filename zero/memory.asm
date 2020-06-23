@@ -18,10 +18,6 @@ zero_memory:
 	mov	dword [zero_memory_map_address],	edi
 
 .loop:
-	; rozmiar wpisu
-	mov	eax,	0x14
-	stosd
-
 	; pobierz informacje o przestrzeni pamięci
 	mov	eax,	0xE820	; funkcja Get System Memory Map
 	mov	ecx,	0x14	; rozmiar wpisu w Bajtach, generowanej tablicy

@@ -22,7 +22,5 @@ zero_kernel:
 	xor	esi,	esi
 	xor	edi,	edi
 
-	xchg	bx,bx
-
 	; wykonaj kod jądra systemu
 	jmp	0x0000000000100000

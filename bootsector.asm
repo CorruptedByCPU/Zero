@@ -24,7 +24,7 @@ bootsector:
 	mov	ds,	ax	; segment danych
 	mov	ss,	ax	; segment stosu
 
-	; ustaw wskaźnik szczytu stosu na gwarantowaną wolną przestrzeń pamięci
+	; ustaw wskaźnik szczytu stosu na gwarantowaną wolną przestrzeń pamięci
 	mov	sp,	bootsector
 
 	; włącz przerwania

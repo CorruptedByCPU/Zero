@@ -15,62 +15,62 @@ zero:
 	;-----------------------------------------------------------------------
 	; przygotuj mapę pamięci
 	;-----------------------------------------------------------------------
-	%include	"engine/memory.asm"
+	%include	"zero/memory.asm"
 
 	;-----------------------------------------------------------------------
 	; włącz tryb graficzny
 	;-----------------------------------------------------------------------
-	%include	"engine/graphics.asm"
+	%include	"zero/graphics.asm"
 
 	;-----------------------------------------------------------------------
 	; przełącz procesor w tryb 32 bitowy
 	;-----------------------------------------------------------------------
-	%include	"engine/protected_mode.asm"
+	%include	"zero/protected_mode.asm"
 
 	;-----------------------------------------------------------------------
 	; przełącz procesor w tryb 64 bitowy
 	;-----------------------------------------------------------------------
-	%include	"engine/long_mode.asm"
+	%include	"zero/long_mode.asm"
 
 	;-----------------------------------------------------------------------
 	; konfiguruj obslugę wyjątków i przerwań sprzętowych
 	;-----------------------------------------------------------------------
-	%include	"engine/idt.asm"
+	%include	"zero/idt.asm"
 
 	;-----------------------------------------------------------------------
 	; włącz przerwania sprzętowe na kontrolerze PIC
 	;-----------------------------------------------------------------------
-	%include	"engine/pic.asm"
+	%include	"zero/pic.asm"
 
 	;-----------------------------------------------------------------------
 	; wczytaj plik jadra systemu
 	;-----------------------------------------------------------------------
-	%include	"engine/storage.asm"
+	%include	"zero/storage.asm"
 
 	;-----------------------------------------------------------------------
 	; wyłącz przerwanie na kontrolerze PIT
 	;-----------------------------------------------------------------------
-	%include	"engine/pit.asm"
+	%include	"zero/pit.asm"
 
 	;-----------------------------------------------------------------------
 	; przekaż wszystkie niezbędne informacje do jadra systemu
 	;-----------------------------------------------------------------------
-	%include	"engine/kernel.asm"
+	%include	"zero/kernel.asm"
 
 	;-----------------------------------------------------------------------
 	; sterownik obsługi dysków IDE
 	;-----------------------------------------------------------------------
-	%include	"engine/driver/storage/ide.asm"
+	%include	"zero/driver/storage/ide.asm"
 
 	;-----------------------------------------------------------------------
 	; procedura zaokrąglająca adres do pełnej strony
 	;-----------------------------------------------------------------------
-	%include	"engine/page.asm"
+	%include	"zero/page.asm"
 
 	;-----------------------------------------------------------------------
 	; zmienne programu rozruchowego
 	;-----------------------------------------------------------------------
-	%include	"engine/data.asm"
+	%include	"zero/data.asm"
 
 ;===============================================================================
 zero_end:

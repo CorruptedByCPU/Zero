@@ -44,7 +44,7 @@ endstruc
 ;===============================================================================
 kernel:
 	; domyślny kolor tła
-	mov	eax,	0x00FF0000	; czerwony
+	mov	eax,	0x0000FF00	; czerwony
 
 	; pobierz ilość pikseli na osi Y
 	mov	bx,	word [rdx + KERNEL_VIDEO_STRUCTURE_MODE_INFO_BLOCK.y_resolution]

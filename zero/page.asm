@@ -23,7 +23,7 @@ zero_page_align_up:
 	cmp	edi,	dword [esp]
 	je	.end	; jeśli tak, koniec
 
-	; przesuń adres o jedną ramkę do przodu
+	; przesuń adres o jedną ramkę do przodu
 	add	edi,	0x1000
 .end:
 	; usuń zmienną lokalną
