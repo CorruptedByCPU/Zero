@@ -1,5 +1,5 @@
 ;===============================================================================
-; Copyright (C) by vLock.dev
+; Copyright (C) by blackdev.org
 ;===============================================================================
 
 ZERO_LONG_MODE_PML4_address		equ	0xA000	; adres fizyczny
@@ -59,7 +59,7 @@ zero_long_mode:
 	mov	cr4,	eax		; PGE (bit 7) - obsługa stronicowania
 					; OSFXSR (bit 9) - obsługa rejestrów XMM0-15
 
-	; załaduj do CR3 adres fizyczny tablicy PML4 jądra systemu
+	; załaduj do CR3 adres fizyczny tablicy PML4 programu rozruchowego
 	mov	eax,	ZERO_LONG_MODE_PML4_address
 	mov	cr3,	eax
 
@@ -95,7 +95,7 @@ zero_long_mode_header_gdt_64bit:
 ;===============================================================================
 ; 64 bitowy kod programu rozruchowego ==========================================
 ;===============================================================================
-[BITS 64]
+[bits 64]
 
 ;===============================================================================
 zero_long_mode_entry:

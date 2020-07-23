@@ -1,5 +1,5 @@
 ;===============================================================================
-; Copyright (C) by vLock.dev
+; Copyright (C) by blackdev.org
 ;===============================================================================
 
 struc	KERNEL_VIDEO_STRUCTURE_MODE_INFO_BLOCK
@@ -36,10 +36,10 @@ struc	KERNEL_VIDEO_STRUCTURE_MODE_INFO_BLOCK
 endstruc
 
 ; 64 bitowy kod jądra systemu
-[BITS 64]
+[bits 64]
 
 ; położenie kodu jądra systemu w pamięci fizycznej
-[ORG 0x0000000000100000]
+[org 0x0000000000100000]
 
 ;===============================================================================
 kernel:
