@@ -11,8 +11,8 @@
 ### Compilation/Exec (GNU/Linux):
 
 	user@hostname:~/Zero$ chmod +x make.sh qemu.sh
-	user@hostname:~/Zero$ .\make.sh
-	user@hostname:~/Zero$ .\qemu.sh
+	user@hostname:~/Zero$ ./make.sh
+	user@hostname:~/Zero$ ./qemu.sh
 
 ### Compilation/Exec (MS/Windows):
 
