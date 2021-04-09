@@ -1,41 +1,45 @@
 ;===============================================================================
-; Copyright (C) by blackdev.org
+; Copyright (C) Andrzej Adamczyk (at https://blackdev.org/). All rights reserved.
+; GPL-3.0 License
+;
+; Main developer:
+;	Andrzej Adamczyk
 ;===============================================================================
 
 ;===============================================================================
 zero_storage:
-	; inicjalizuj dostępne nośniki
-	call	driver_ide_init
+	; zachowaj orginalny segment ekstra
+	push	es
 
-	; TODO: systemy plików, więcej sektorów na raz
+	; adres docelowy jądra systemu
+	mov	ax,	0x1000
+	mov	es,	ax	; segment
+	xor	bx,	bx	; przesunięcie
 
-	; wczytaj plik jądra systemu
+	; wyświetl informację o aktualnej czynności
+	mov	si,	zero_string_header
+	call	zero_print_string
+	mov	si,	zero_string_loading
+	call	zero_print_string
 
-	; pierwszy sektor zawierający dane pliku jądra systemu
-	mov	eax,	((zero_end - zero) + 0x200) / 0x200
+	; plik jądra systemu
+	mov	cl,	(((zero_end - zero) + 0x200) / 0x200) + 0x01	; pozycja pliku jądra systemu za programem rozruchowym
+	mov	di,	KERNEL_FILE_SIZE_bytes / 0x0200	; rozmiar w sektorach
+	call	zero_floppy
+	jnc	.end	; wczytano popwanie
 
-	; nośnik Master na kontrolerze IDE0
-	xor	ebx,	ebx
+	; wyświetl komunikat o błędzie
+	mov	si,	zero_string_error_kernel
+	call	zero_print_string
 
-	; odczytujemy plik po jednym sektorze na raz
-	mov	ecx,	1
+	; zatrzymaj dalsze wykonywanie kodu
+	jmp	$
 
-	; rozmiar pliku jądra systemu w sektorach
-	mov	edx,	(KERNEL_FILE_SIZE_bytes / 0x200)
+	;-----------------------------------------------------------------------
+	; procedura wczytująca plik jądra systemu z nośnika
+	;-----------------------------------------------------------------------
+	%include	"zero/floppy.asm"
 
-	; wskaźnik docelowy w przestrzeni pamięci fizycznej/logicznej
-	mov	edi,	0x00100000
-
-.loop:
-	; wczytaj sektor
-	call	driver_ide_read
-
-	; następny sektor
-	inc	eax
-
-	; przesuń wskaźnik docelowy
-	add	edi,	0x0200
-
-	; koniec sektorów należących do pliku?
-	dec	edx
-	jnz	.loop	; nie
+zero_storage.end:
+	; przywróć oryginalny segment ekstra
+	pop	es

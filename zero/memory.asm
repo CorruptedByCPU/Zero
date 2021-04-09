@@ -1,5 +1,9 @@
 ;===============================================================================
-; Copyright (C) by blackdev.org
+; Copyright (C) Andrzej Adamczyk (at https://blackdev.org/). All rights reserved.
+; GPL-3.0 License
+;
+; Main developer:
+;	Andrzej Adamczyk
 ;===============================================================================
 
 ;===============================================================================
@@ -10,7 +14,7 @@ zero_memory:
 	; ciąg znaków "SMAP", specjalna wartość wymagana przez procedurę
 	mov	edx,	0x534D4150
 
-	; utwórz mapę pamięci pod fizycznym adresem 0x0000:0x1000
+	; utwórz mapę pamięci pod fizycznym adresem końca programu rozruchowego
 	mov	edi,	zero_end
 	call	zero_page_align_up
 

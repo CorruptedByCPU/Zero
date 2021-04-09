@@ -1,17 +1,21 @@
 ;===============================================================================
-; Copyright (C) by blackdev.org
+; Copyright (C) Andrzej Adamczyk (at https://blackdev.org/). All rights reserved.
+; GPL-3.0 License
+;
+; Main developer:
+;	Andrzej Adamczyk
 ;===============================================================================
 
 ;===============================================================================
 ; 16 bitowy kod głównego programu rozruchowego =================================
 ;===============================================================================
-[bits 16]
+[bits 32]
 
 ;===============================================================================
 ; wejście:
-;	di - adres w przestrzeni logicznej
+;	edi - adres w przestrzeni logicznej
 ; wyjście:
-;	di - adres wyrównany do pełnej strony
+;	edi - adres wyrównany do pełnej strony
 zero_page_align_up:
 	; utwórz zmienną lokalną
 	push	edi

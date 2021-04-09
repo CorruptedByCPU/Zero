@@ -1,5 +1,9 @@
 ;===============================================================================
-; Copyright (C) by blackdev.org
+; Copyright (C) Andrzej Adamczyk (at https://blackdev.org/). All rights reserved.
+; GPL-3.0 License
+;
+; Main developer:
+;	Andrzej Adamczyk
 ;===============================================================================
 
 struc	KERNEL_VIDEO_STRUCTURE_MODE_INFO_BLOCK
@@ -41,10 +45,16 @@ endstruc
 ; położenie kodu jądra systemu w pamięci fizycznej
 [org 0x0000000000100000]
 
+; nagłówek poszukiwany przez program rozruchowy Zero
+align	0x08	; wyrównaj nagłówek do pełnego adresu
+header:
+					db	"Z E R O "	; czysta magija
+					dq	kernel		; wskaźnik do głównej procedury jądra systemu
+
 ;===============================================================================
 kernel:
 	; domyślny kolor tła
-	mov	eax,	0x0000FF00	; czerwony
+	mov	eax,	0x00D400C5
 
 	; pobierz ilość pikseli na osi Y
 	mov	bx,	word [rdx + KERNEL_VIDEO_STRUCTURE_MODE_INFO_BLOCK.y_resolution]
